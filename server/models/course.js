@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 mongoose.Promise = global.Promise;
 
@@ -14,4 +14,4 @@ const courseSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model('Course', courseSchema);
+export default mongoose.model("Course", courseSchema);
