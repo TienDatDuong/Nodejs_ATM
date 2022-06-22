@@ -4,7 +4,7 @@ import Transaction from "../models/transaction.js";
 export function createTransaction(req, res) {
   const transaction = new Transaction({
     _id: mongoose.Types.ObjectId(),
-    createAt: new Date ,
+    createAt: new Date(),
     type: req.body.type,
     balance: req.body.balance,
     sender: req.body.sender,
@@ -34,10 +34,44 @@ export function createTransaction(req, res) {
     });
 }
 
+export function createWithdraw(req, res) {
+  // create transaction
+  const transaction = new Transaction({
+    _id: mongoose.Types.ObjectId(),
+    updatedAt: new Date(),
+    balance: req.body.balance,
+    requsted_balance: req.body.requsted_balance,
+    type: req.body.type,
+  });
+
+  return transaction
+    .save()
+    // .exec()
+    .then((newTransaction) => {
+      return res.status(201).json({
+        success: true,
+        message: "New transaction created successfully",
+        Transaction: newTransaction,
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({
+        success: false,
+        message: "Server error. Please try again.",
+        error: error.message,
+      });
+    });
+
+  // update account balance
+}
+
 // Get all course
 export function getAllTransaction(req, res) {
   Transaction.find()
-    .select("_id title description")
+    .select(
+      "_id type createdAt balance sender receiver information sender_balance receiver_balance id "
+    )
     .then((allTransaction) => {
       return res.status(200).json({
         success: true,

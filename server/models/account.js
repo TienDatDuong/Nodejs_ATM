@@ -4,7 +4,7 @@ mongoose.Promise = global.Promise;
 
 const accountSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
-  createdAt: { type: Date,  default: Date.now },
+  createdAt: { type: Date, default: Date.now },
   accName: {
     type: String,
     required: true,
@@ -14,10 +14,6 @@ const accountSchema = new mongoose.Schema({
     required: true,
   },
   balance: {
-    type: String,
-    required: true,
-  },
-  id: {
     type: String,
     required: true,
   },
