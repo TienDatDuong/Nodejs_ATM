@@ -9,11 +9,11 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(logger("dev"));
+
 app.use("/api/", mainRoutes);
-// console.log(1111, mainRoutes);
 
 // var mongoose = require("mongoose");
-var dev_db_url = "mongodb://localhost:27017/lol";
+var dev_db_url = "mongodb://localhost:27017/amt-system";
 var mongoDB = process.env.MONGODB_URI || dev_db_url;
 mongoose
   .connect(mongoDB, { useUnifiedTopology: true, useNewUrlParser: true })
@@ -26,7 +26,7 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 // Call in installed dependencies
 // set up express app
 // set up port number
-const port = 4000;
+const port = 4001;
 // set up home route
 app.get("/", (request, respond) => {
   respond.status(200).json({
