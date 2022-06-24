@@ -7,7 +7,7 @@ import {
   updateAccount,
   deleteAccount,
   getBalance,
-} from "../controllers/account.js";
+} from "../controllers/accounts.js";
 
 import {
   createTransaction,
@@ -26,7 +26,6 @@ router.get("/accounts/:accountId", getSingleAccount);
 router.patch("/accounts/:accountId", updateAccount);
 router.delete("/accounts/:accountId", deleteAccount);
 
-// router.get("/balance-inquiry", getBalance);
 router.get("/accounts/:accountId/balance-inquiry", getBalance);
 
 router.post("/accounts/:accountId/withdraw", createWithdraw);

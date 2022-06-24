@@ -3,21 +3,23 @@ import mongoose from "mongoose";
 mongoose.Promise = global.Promise;
 
 const transactionSchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
   type: {
     type: String,
-    required: true,
+    enum: ["withdraw","transfer"],
+    default: "withdraw",
   },
-  // createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
-  requsted_balance: {
+  user_id:{
     type: String,
     required: true,
   },
   balance: {
-    type: String,
+    type: Number,
     required: true,
   },
+  withdrawalAmount:{
+    type: String,
+    required: true,
+  }
   // sender: {
   //   type: String,
   //   required: true,
@@ -27,18 +29,6 @@ const transactionSchema = new mongoose.Schema({
   //   required: true,
   // },
   // information: {
-  //   type: String,
-  //   required: true,
-  // },
-  // sender_balance: {
-  //   type: String,
-  //   required: true,
-  // },
-  // receiver_balance: {
-  //   type: String,
-  //   required: true,
-  // },
-  // id: {
   //   type: String,
   //   required: true,
   // },

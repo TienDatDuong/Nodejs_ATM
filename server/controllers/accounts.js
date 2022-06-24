@@ -1,10 +1,8 @@
 import mongoose from "mongoose";
-import Account from "../models/account.js";
+import Account from "../models/accounts.js";
 
 export function createAccount(req, res) {
   const account = new Account({
-    _id: mongoose.Types.ObjectId(),
-    createAt: new Date(),
     accName: req.body.accName,
     pin: req.body.pin,
     balance: req.body.balance,
@@ -36,7 +34,7 @@ export async function getAllAccount(req, res) {
   const result = await Account.find()
     .select("_id createdAt accName balance id accPhone accNumber pin ")
     .then((accounts) => {
-      return res.status(200).json({
+      res.status(200).json({
         success: true,
         message: "A list of all account",
         accounts,
