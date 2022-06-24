@@ -1,11 +1,4 @@
 import express from "express";
-import {
-  createCourse,
-  getAllCourse,
-  getSingleCourse,
-  updateCourse,
-  deleteCourse,
-} from "../controllers/course.js";
 
 import {
   createAccount,
@@ -13,7 +6,8 @@ import {
   getSingleAccount,
   updateAccount,
   deleteAccount,
-} from "../controllers/account.js";
+  getBalance,
+} from "../controllers/accounts.js";
 
 import {
   createTransaction,
@@ -21,6 +15,7 @@ import {
   getSingleTransaction,
   updateTransaction,
   deleteTransaction,
+  createWithdraw,
 } from "../controllers/transaction.js";
 
 const router = express.Router();
@@ -31,16 +26,14 @@ router.get("/accounts/:accountId", getSingleAccount);
 router.patch("/accounts/:accountId", updateAccount);
 router.delete("/accounts/:accountId", deleteAccount);
 
+router.get("/accounts/:accountId/balance-inquiry", getBalance);
+
+router.post("/accounts/:accountId/withdraw", createWithdraw);
+
 router.post("/tranactions", createTransaction);
 router.get("/tranactions", getAllTransaction);
 router.get("/tranactions/:tranactionId", getSingleTransaction);
 router.patch("/tranactions/:tranactionId", updateTransaction);
 router.delete("/tranactions/:tranactionId", deleteTransaction);
-
-router.post("/courses", createCourse);
-router.get("/courses", getAllCourse);
-router.get("/courses/:courseId", getSingleCourse);
-router.patch("/courses/:courseId", updateCourse);
-router.delete("/courses/:courseId", deleteCourse);
 
 export default router;

@@ -3,9 +3,14 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import logger from "morgan";
 import mainRoutes from "./server/routes/main.js";
-
+import cors from "cors";
+// var cors = require('cors');
+// var mongojs = require('mongojs')
+// global.db = mongojs(<mongodb url>);
 // set up dependencies
 const app = express();
+app.use(cors());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(logger("dev"));
@@ -20,7 +25,7 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log("MongoDB not connect", err));
 mongoose.Promise = global.Promise;
-var db = mongoose.connection;
+export var db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 // Call in installed dependencies
