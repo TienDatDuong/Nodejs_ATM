@@ -16,6 +16,7 @@ import {
   updateTransaction,
   deleteTransaction,
   createWithdraw,
+  createTransfer,
 } from "../controllers/transaction.js";
 
 const router = express.Router();
@@ -29,6 +30,8 @@ router.delete("/accounts/:accountId", deleteAccount);
 router.get("/accounts/:accountId/balance-inquiry", getBalance);
 
 router.post("/accounts/:accountId/withdraw", createWithdraw);
+
+router.post("/accounts/transfer", createTransfer);
 
 router.post("/tranactions", createTransaction);
 router.get("/tranactions", getAllTransaction);

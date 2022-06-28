@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Transaction from "../models/transaction.js";
 import Account from "../models/accounts.js";
+import Transfer from "../models/transfer.js";
 export function createTransaction(req, res) {
   const transaction = new Transaction({
     type: req.body.transaction,
@@ -32,35 +33,16 @@ export function createTransaction(req, res) {
 }
 
 export async function createWithdraw(req, res) {
-  // create transaction
-  // const transaction = new Transaction({
-  //   balance: req.body.balance,
-  //   requsted_balance: req.body.requsted_balance,
-  //   type: req.body.type,
-  // });
-
-  // const id = req.params.accountId;
-  // const updateObject = (req.body = {
-  //   balance: req.body.balance - req.body.requsted_balance,
-  // });
-  // const a = Account.update({ _id: id }, { $set: updateObject });
-  // console.log(111, a);
-  // Account.find(id);
   try {
     const createdTransaction = await Transaction.create({
+      accNumber: req.body.accNumber,
       transactionType: req.body.transactionType,
-      balance: req.body.balance,
-      withdrawalAmount: req.body.withdrawalAmount,
-      user_id: req.body.user_id,
-      // sender: req.body.sender,
-      // receiver: req.body.receiver,
-      // information: req.body.information,
-      // amount: req.body.amount,
+      amount: req.body.amount,
+      // withdrawalAmount: req.body.withdrawalAmount,
     });
-    const updatedBalance = await Account.findByIdAndUpdate(req.body.user_id, {
-      $inc: { balance: -req.body.withdrawalAmount },
+    const updatedBalance = await Account.findByIdAndUpdate(req.body.accNumber, {
+      $inc: { balance: -req.body.amount },
     });
-    // inc : tăng số âm để giảm đi
     return res.status(201).json({ createdTransaction, updatedBalance });
   } catch (e) {
     console.log("error", e);
@@ -70,24 +52,40 @@ export async function createWithdraw(req, res) {
       error: error.message,
     });
   }
+}
 
-  // return transaction
-  //   .save()
-  //   .then((newTransaction) => {
-  //     return res.status(201).json({
-  //       success: true,
-  //       message: "New transaction created successfully",
-  //       Transaction: newTransaction,
-  //     });
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //     res.status(500).json({
-  //       success: false,
-  //       message: "Server error. Please try again.",
-  //       error: error.message,
-  //     });
-  //   });
+export async function createTransfer(req, res) {
+  try {
+    const createTransfer = await Transaction.create({
+      type: req.body.type,
+      accNumber: req.body.accNumber,
+      accNumberReceived: req.body.accNumberReceived,
+      amount: req.body.amount,
+      information: req.body.information,
+    });
+    const updateSender_id = await Account.findByIdAndUpdate(
+      req.body.accNumber,
+      {
+        $inc: { balance: -req.body.amount },
+      }
+    );
+    const updateReceiver_id = await Transfer.findByIdAndUpdate(
+      req.body.accNumberReceived,
+      {
+        $inc: { balance: +req.body.amount },
+      }
+    );
+    return res
+      .status(201)
+      .json({ createTransfer, updateSender_id, updateReceiver_id });
+  } catch {
+    // console.log("error", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error. Please try again.",
+      error: error.message,
+    });
+  }
 }
 
 // Get all course

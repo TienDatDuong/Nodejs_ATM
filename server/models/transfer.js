@@ -2,26 +2,27 @@ import mongoose from "mongoose";
 
 mongoose.Promise = global.Promise;
 
-const transactionSchema = new mongoose.Schema({
+const transferSchema = new mongoose.Schema({
   type: {
     type: String,
     enum: ["withdraw", "transfer"],
-    default: "withdraw",
   },
-  accNumber: {
+  sender_id: {
     type: String,
-    required: true,
+    require: true,
   },
-  accNumberReceived: {
+  receiver_id: {
     type: String,
+    require: true,
   },
-  amount: {
+  transfer_amount: {
     type: Number,
     required: true,
   },
   information: {
     type: String,
+    require: true,
   },
 });
 
-export default mongoose.model("Transaction", transactionSchema);
+export default mongoose.model("Transfer", transferSchema);
