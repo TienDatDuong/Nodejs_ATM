@@ -8,7 +8,7 @@ import {
   deleteAccount,
   getBalance,
   getPin,
-  updatePin
+  updatePin,
 } from "../controllers/accounts.js";
 
 import {
@@ -21,6 +21,8 @@ import {
   createTransfer,
 } from "../controllers/transaction.js";
 
+import * as authController from "../controllers/auth.controller.js";
+
 const router = express.Router();
 
 router.post("/accounts", createAccount);
@@ -29,20 +31,23 @@ router.get("/accounts/:accountId", getSingleAccount);
 router.patch("/accounts/:accountId", updateAccount);
 router.delete("/accounts/:accountId", deleteAccount);
 
-router.get("/accounts/:accountId/balance-inquiry", getBalance); 
+router.get("/accounts/:accountId/balance-inquiry", getBalance);
 
-router.get("/accounts/:accountId/pin", getPin); 
-router.patch("/accounts/:accountId/pin",updatePin); 
+router.get("/accounts/:accountId/pin", getPin);
+router.patch("/accounts/:accountId/pin", updatePin);
 
 router.post("/accounts/:accountId/withdraw", createWithdraw);
 
 router.post("/accounts/transfer", createTransfer);
-
 
 router.post("/tranactions", createTransaction);
 router.get("/tranactions", getAllTransaction);
 router.get("/tranactions/:accountId", getSingleTransaction);
 router.patch("/tranactions/:tranactionId", updateTransaction);
 router.delete("/tranactions/:tranactionId", deleteTransaction);
+
+router.post("/register", authController.register);
+
+router.post("/login", authController.login);
 
 export default router;

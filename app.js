@@ -5,6 +5,10 @@ import logger from "morgan";
 import mainRoutes from "./server/routes/main.js";
 import cors from "cors";
 
+import createError from "http-errors";
+import "dotenv/config";
+// import authRouter from "./server/src/auth/auth.router.js";
+
 const app = express();
 app.use(cors());
 
@@ -37,3 +41,31 @@ app.get("/", (request, respond) => {
 app.listen(port, (request, respond) => {
   console.log(`Our server is live on ${port}. Yay!`);
 });
+
+//
+
+app.use(
+  bodyParser.urlencoded({
+    extended: false,
+  })
+);
+app.use(bodyParser.json());
+app.use(cors());
+
+// app.get("/", (req, res) => {
+//   res.send("APP IS RUNNING");
+// });
+// // app.use("/auth", authRouter);
+
+// app.use((req, res, next) => {
+//   next(createError(404));
+// });
+
+// app.use((err, req, res) => {
+//   console.log(err.stack);
+//   res.status(err.status || 500).send(err.message);
+// });
+
+// const server = app.listen(process.env.PORT, () => {
+//   console.log(`Express running → PORT ${server.address().port}`);
+// });
