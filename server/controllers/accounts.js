@@ -71,6 +71,46 @@ export function getSingleAccount(req, res) {
     });
 }
 
+export function getPin(req, res) {
+  const id = req.params.accountId;
+  Account.findById(id)
+    .select("pin")
+    .then((singleAccount) => {
+      res.status(200).json({
+        success: true,
+        message: `More on ${singleAccount.title}`,
+        Account: singleAccount,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "This account does not exist",
+        error: err.message,
+      });
+    });
+}
+
+export function updatePin(req, res) {
+  const id = req.params.accountId;
+  const updateObject = req.body;
+  Account.update({ _id: id }, { $set: updateObject })
+    .exec()
+    .then(() => {
+      res.status(200).json({
+        success: true,
+        message: "Account is updated",
+        updateAccount: updateObject,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error. Please try again.",
+      });
+    });
+}
+
 export function updateAccount(req, res) {
   const id = req.params.accountId;
   const updateObject = req.body;

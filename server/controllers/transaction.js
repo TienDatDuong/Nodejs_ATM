@@ -2,15 +2,13 @@ import mongoose from "mongoose";
 import Transaction from "../models/transaction.js";
 import Account from "../models/accounts.js";
 import Transfer from "../models/transfer.js";
+
 export function createTransaction(req, res) {
   const transaction = new Transaction({
     type: req.body.transaction,
     sender: req.body.sender,
     receiver: req.body.receiver,
     information: req.body.information,
-    // balance: req.body.balance,
-    // sender_balance: req.body.sender_balance,
-    // receiver_balance: req.body.receiver_balance,
   });
 
   return transaction
@@ -38,12 +36,11 @@ export async function createWithdraw(req, res) {
       accNumber: req.body.accNumber,
       transactionType: req.body.transactionType,
       amount: req.body.amount,
-      // withdrawalAmount: req.body.withdrawalAmount,
     });
     const updatedBalance = await Account.findByIdAndUpdate(req.body.accNumber, {
       $inc: { balance: -req.body.amount },
     });
-    return res.status(201).json({ createdTransaction, updatedBalance });
+    return res.status(201).json({ createdTransaction });
   } catch (e) {
     console.log("error", e);
     res.status(500).json({
@@ -75,11 +72,8 @@ export async function createTransfer(req, res) {
         $inc: { balance: +req.body.amount },
       }
     );
-    return res
-      .status(201)
-      .json({ createTransfer, updateSender_id, updateReceiver_id });
+    return res.status(201).json(createTransfer);
   } catch {
-    // console.log("error", error);
     res.status(500).json({
       success: false,
       message: "Server error. Please try again.",
@@ -91,9 +85,7 @@ export async function createTransfer(req, res) {
 // Get all course
 export function getAllTransaction(req, res) {
   Transaction.find()
-    .select(
-      "_id type createdAt amount sender receiver information sender_amount receiver_amount id "
-    )
+    .select("type accNumber accNumberReceived amount information  ")
     .then((allTransaction) => {
       return res.status(200).json({
         success: true,
