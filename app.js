@@ -6,10 +6,10 @@ import mainRoutes from "./server/routes/main.js";
 import cors from "cors";
 
 import createError from "http-errors";
-import "dotenv/config";
-// import authRouter from "./server/src/auth/auth.router.js";
+import * as dotenv from "dotenv"
 
 const app = express();
+dotenv.config()
 app.use(cors());
 
 app.use(bodyParser.json());
@@ -51,21 +51,3 @@ app.use(
 );
 app.use(bodyParser.json());
 app.use(cors());
-
-// app.get("/", (req, res) => {
-//   res.send("APP IS RUNNING");
-// });
-// // app.use("/auth", authRouter);
-
-// app.use((req, res, next) => {
-//   next(createError(404));
-// });
-
-// app.use((err, req, res) => {
-//   console.log(err.stack);
-//   res.status(err.status || 500).send(err.message);
-// });
-
-// const server = app.listen(process.env.PORT, () => {
-//   console.log(`Express running → PORT ${server.address().port}`);
-// });

@@ -22,6 +22,7 @@ import {
 } from "../controllers/transaction.js";
 
 import * as authController from "../controllers/auth.controller.js";
+import middlewareController from "../middlewares/auth.js";
 
 const router = express.Router();
 

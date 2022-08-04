@@ -5,7 +5,7 @@ export function createAccount(req, res) {
   const account = new Account({
     accName: req.body.accName,
     pin: req.body.pin,
-    balance: req.body.balance,
+    balance: req.body.balance, 
     accPhone: req.body.accPhone,
     accNumber: req.body.accNumber,
   });
