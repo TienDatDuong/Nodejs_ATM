@@ -5,7 +5,7 @@ export function createAccount(req, res) {
   const account = new Account({
     accName: req.body.accName,
     pin: req.body.pin,
-    balance: req.body.balance,
+    balance: req.body.balance, 
     accPhone: req.body.accPhone,
     accNumber: req.body.accNumber,
   });
@@ -67,6 +67,46 @@ export function getSingleAccount(req, res) {
         success: false,
         message: "This account does not exist",
         error: err.message,
+      });
+    });
+}
+
+export function getPin(req, res) {
+  const id = req.params.accountId;
+  Account.findById(id)
+    .select("pin")
+    .then((singleAccount) => {
+      res.status(200).json({
+        success: true,
+        message: `More on ${singleAccount.title}`,
+        Account: singleAccount,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "This account does not exist",
+        error: err.message,
+      });
+    });
+}
+
+export function updatePin(req, res) {
+  const id = req.params.accountId;
+  const updateObject = req.body;
+  Account.update({ _id: id }, { $set: updateObject })
+    .exec()
+    .then(() => {
+      res.status(200).json({
+        success: true,
+        message: "Account is updated",
+        updateAccount: updateObject,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server error. Please try again.",
       });
     });
 }
